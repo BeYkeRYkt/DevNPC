@@ -32,15 +32,15 @@ public class NMSRegistry implements INMSRegistry {
 
 	@SuppressWarnings("unchecked")
 	private void addToMaps(Class<? extends INMSCustomEntity> clazz, String name, int id) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		//if (clazz.isAssignableFrom(Entity.class)) {
-		if(Entity.class.isAssignableFrom(clazz)){
+		// if (clazz.isAssignableFrom(Entity.class)) {
+		if (Entity.class.isAssignableFrom(clazz)) {
 			Class<? extends Entity> entity = (Class<? extends Entity>) clazz;
 			// ((Map<String, Class<? extends Entity>>) getPrivateField("c", net.minecraft.server.v1_8_R3.EntityTypes.class, null)).put(name, entity);
 			// ((Map<Class<? extends Entity>, String>) getPrivateField("d", net.minecraft.server.v1_8_R3.EntityTypes.class, null)).put(entity, name);
 			// ((Map<Integer, Class<? extends Entity>>) getPrivateField("e", net.minecraft.server.v1_8_R3.EntityTypes.class, null)).put(Integer.valueOf(id), entity);
 			// ((Map<Class<? extends Entity>, Integer>) getPrivateField("f", net.minecraft.server.v1_8_R3.EntityTypes.class, null)).put(entity, Integer.valueOf(id));
 			// ((Map<String, Integer>) getPrivateField("g", net.minecraft.server.v1_8_R3.EntityTypes.class, null)).put(name, Integer.valueOf(id));
-			getNonEggMethod().invoke(EntityTypes.class, entity, name, id);
+			getEggMethod().invoke(EntityTypes.class, entity, name, id, 0, 0);
 			DevNPC.getNPCManager().getPlugin().getLogger().info("Added new entity " + name + ":" + id);
 		}
 	}
@@ -66,17 +66,17 @@ public class NMSRegistry implements INMSRegistry {
 		}
 		DevNPC.getNPCManager().getPlugin().getLogger().info("Removed entity " + name + ":" + id);
 	}
-	
+
 	@Override
 	public INPC createEntityFromName(String name, World world) {
 		WorldServer nms = ((CraftWorld) world).getHandle();
 		Entity entity = EntityTypes.createEntityByName(name, nms);
+
 		nms.addEntity(entity);
-		entity.ah();
-		
-		//if(entity.getClass().isAssignableFrom(INMSCustomEntity.class)){
-		if(INMSCustomEntity.class.isAssignableFrom(entity.getClass())){
-			return ((INMSCustomEntity) entity).getBukkitNPC();
+
+		if (INMSCustomEntity.class.isAssignableFrom(entity.getClass())) {
+			INMSCustomEntity entityNMS = (INMSCustomEntity) entity;
+			return entityNMS.getBukkitNPC();
 		}
 		return null;
 	}
@@ -85,19 +85,19 @@ public class NMSRegistry implements INMSRegistry {
 	public INPC createEntityFromId(int id, World world) {
 		WorldServer nms = ((CraftWorld) world).getHandle();
 		Entity entity = EntityTypes.a(id, nms);
+
 		nms.addEntity(entity);
-		entity.ah();
-		
-		//if(entity.getClass().isAssignableFrom(INMSCustomEntity.class)){
-		if(INMSCustomEntity.class.isAssignableFrom(entity.getClass())){
-			return ((INMSCustomEntity) entity).getBukkitNPC();
+
+		if (INMSCustomEntity.class.isAssignableFrom(entity.getClass())) {
+			INMSCustomEntity entityNMS = (INMSCustomEntity) entity;
+			return entityNMS.getBukkitNPC();
 		}
 		return null;
 	}
 
-	private Method getNonEggMethod() throws NoSuchMethodException, SecurityException {
+	private Method getEggMethod() throws NoSuchMethodException, SecurityException {
 		if (method == null) {
-			method = EntityTypes.class.getDeclaredMethod("a", Class.class, String.class, int.class);
+			method = EntityTypes.class.getDeclaredMethod("a", Class.class, String.class, int.class, int.class, int.class);
 			method.setAccessible(true);
 		}
 		return method;
@@ -119,12 +119,5 @@ public class NMSRegistry implements INMSRegistry {
 			e.printStackTrace();
 		}
 		return o;
-	}
-
-	// Others...
-	@Override
-	public int getColor(int red, int green, int blue) {
-		int color_int = (red << 16) + (green << 8) + blue;
-		return color_int;
 	}
 }

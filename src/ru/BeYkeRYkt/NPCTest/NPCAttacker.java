@@ -13,7 +13,6 @@ import net.minecraft.server.v1_8_R3.PathfinderGoalLookAtPlayer;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMoveIndoors;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMoveTowardsRestriction;
-import net.minecraft.server.v1_8_R3.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.server.v1_8_R3.PathfinderGoalOpenDoor;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomLookaround;
 import net.minecraft.server.v1_8_R3.PathfinderGoalRandomStroll;
@@ -21,6 +20,8 @@ import net.minecraft.server.v1_8_R3.PathfinderGoalRestrictOpenDoor;
 import ru.BeYkeRYkt.DevNPC.api.characters.BasicCharacter;
 import ru.BeYkeRYkt.DevNPC.api.entity.bukkit.LivingEntityNPC;
 import ru.BeYkeRYkt.DevNPC.api.path.AIManager;
+import ru.BeYkeRYkt.DevNPC.api.path.tasks.SearchGoalTargetTask;
+import ru.BeYkeRYkt.DevNPC.api.path.tasks.UniversalAttackOtherNPCsTask;
 import ru.BeYkeRYkt.DevNPC.implementation.path.CraftAIManager;
 
 public class NPCAttacker extends BasicCharacter {
@@ -39,8 +40,9 @@ public class NPCAttacker extends BasicCharacter {
 	public void initGoalTasks(LivingEntityNPC entity, AIManager manager) {
 		CraftAIManager cmanager = (CraftAIManager) manager;
 		EntityCreature handle = ((CraftCreature) entity).getHandle();
-		
+
 		cmanager.addTask(0, new PathfinderGoalFloat(handle));
+		cmanager.addTask(1, new UniversalAttackOtherNPCsTask(entity, "dev_guardian", 3, 10));
 		cmanager.addTask(2, new PathfinderGoalMeleeAttack(handle, EntityHuman.class, 1.0D, false));
 		cmanager.addTask(2, new PathfinderGoalMoveIndoors(handle));
 		cmanager.addTask(3, new PathfinderGoalRestrictOpenDoor(handle));
@@ -56,7 +58,8 @@ public class NPCAttacker extends BasicCharacter {
 		CraftAIManager cmanager = (CraftAIManager) fightAIManager;
 		EntityCreature handle = ((CraftCreature) entity).getHandle();
 		cmanager.addTask(1, new PathfinderGoalHurtByTarget(handle, false, new Class[0]));
-		cmanager.addTask(3, new PathfinderGoalNearestAttackableTarget(handle, EntityHuman.class, true));
+		// cmanager.addTask(2, new PathfinderGoalNearestAttackableTarget(handle, EntityHumanNPC.class, true));
+		cmanager.addTask(2, new SearchGoalTargetTask(entity, LivingEntityNPC.class));
 	}
 
 	@Override

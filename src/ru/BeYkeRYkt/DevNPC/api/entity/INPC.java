@@ -2,10 +2,10 @@ package ru.BeYkeRYkt.DevNPC.api.entity;
 
 import ru.BeYkeRYkt.DevNPC.api.Animations;
 
-public interface INPC{
+public interface INPC {
 
 	public boolean isLiving();
-	
+
 	public boolean isDamageable();
 
 	public void setDamageable(boolean flag);
@@ -18,17 +18,17 @@ public interface INPC{
 
 	public void setFreezing(boolean flag);
 
-	//public void moveTo(Location loc, double d);
+	// public void moveTo(Location loc, double d);
 
-	//public void moveTo(double x, double y, double z, double speed);
-	
-	//public void stopPathfinding();
+	// public void moveTo(double x, double y, double z, double speed);
 
-	//public void jump();
+	// public void stopPathfinding();
 
-	//public void lookAt(Location location);
+	// public void jump();
 
-	//public void lookAt(double x, double y, double z);
+	// public void lookAt(Location location);
+
+	// public void lookAt(double x, double y, double z);
 
 	public void setYaw(float yaw);
 
@@ -38,15 +38,15 @@ public interface INPC{
 
 	public float getPitch();
 
-	//public AIManager getGoalAIManager();
+	// public AIManager getGoalAIManager();
 
-	//public AIManager getTargetAIManager();
+	// public AIManager getTargetAIManager();
 
 	public float getHeight();
 
-	//public ICharacter getCharacter();
+	// public ICharacter getCharacter();
 
-	//public void setCharacter(ICharacter character);
+	// public void setCharacter(ICharacter character);
 
 	public void playAnimation(int animationId);
 
@@ -54,21 +54,21 @@ public interface INPC{
 
 	public void playAnimation(Animations anim, int particalCount);
 
-	//public void refreshStats();
+	// public void refreshStats();
 
-	//public double getWalkSpeed();
+	// public double getWalkSpeed();
 
-	//public void setWalkSpeed(double speed);
+	// public void setWalkSpeed(double speed);
 
-	//public double getViewDistance();
+	// public double getViewDistance();
 
-	//public void setViewDistance(double view);
+	// public void setViewDistance(double view);
 
-	//public double getDamageAttack();
+	// public double getDamageAttack();
 
-	//public void setDamageAttack(double damage);
-	
-	//public void attackEntity(LivingEntity entity);
-	
-	//public void applyCharacterEquipment();
+	// public void setDamageAttack(double damage);
+
+	// public void attackEntity(LivingEntity entity);
+
+	// public void applyCharacterEquipment();
 }

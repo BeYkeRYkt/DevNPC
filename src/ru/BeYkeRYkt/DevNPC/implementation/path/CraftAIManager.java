@@ -40,7 +40,7 @@ public class CraftAIManager implements AIManager {
 			this.selector.a(goal);
 		}
 	}
-	
+
 	public void removeTask(PathfinderGoal goal) {
 		this.selector.a(goal);
 	}

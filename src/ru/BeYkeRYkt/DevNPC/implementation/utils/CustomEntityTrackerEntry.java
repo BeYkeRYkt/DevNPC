@@ -2,7 +2,6 @@ package ru.BeYkeRYkt.DevNPC.implementation.utils;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.spigotmc.AsyncCatcher;
@@ -61,7 +60,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntityPainting;
 import net.minecraft.server.v1_8_R3.PacketPlayOutUpdateAttributes;
 import net.minecraft.server.v1_8_R3.PacketPlayOutUpdateEntityNBT;
 import ru.BeYkeRYkt.DevNPC.api.entity.ICustomPacketsEntity;
-import ru.BeYkeRYkt.DevNPC.api.entity.INMSCustomEntity;
 
 public class CustomEntityTrackerEntry extends EntityTrackerEntry {
 
@@ -124,7 +122,6 @@ public class CustomEntityTrackerEntry extends EntityTrackerEntry {
 				this.j = this.tracker.motX;
 				this.k = this.tracker.motY;
 				this.l = this.tracker.motZ;
-				// if ((this.velocity) && (!(packet instanceof PacketPlayOutSpawnEntityLiving))) {
 				if ((this.velocity)) {
 					entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityVelocity(this.tracker.getId(), this.tracker.motX, this.tracker.motY, this.tracker.motZ));
 				}
@@ -178,20 +175,8 @@ public class CustomEntityTrackerEntry extends EntityTrackerEntry {
 		return entityplayer.u().getPlayerChunkMap().a(entityplayer, this.tracker.ae, this.tracker.ag);
 	}
 
-	@Override
-	public void scanPlayers(List<EntityHuman> list) {
-		for (int i = 0; i < list.size(); ++i)
-			updatePlayer((EntityPlayer) list.get(i));
-	}
-
-	public void scanPlayers() {
-		for (int i = 0; i < tracker.world.players.size(); ++i)
-			updatePlayer((EntityPlayer) tracker.world.players.get(i));
-	}
-
 	private Packet<?>[] getSpawnPackets() {
-		//if (!tracker.getClass().isInstance(ICustomPacketsEntity.class)) {
-		if(ICustomPacketsEntity.class.isAssignableFrom(tracker.getClass())){
+		if (ICustomPacketsEntity.class.isAssignableFrom(tracker.getClass())) {
 			ICustomPacketsEntity npc = (ICustomPacketsEntity) tracker;
 			return (Packet<?>[]) npc.getSpawnPackets();
 		}
@@ -199,8 +184,7 @@ public class CustomEntityTrackerEntry extends EntityTrackerEntry {
 	}
 
 	private Packet<?>[] getUpdatePackets() {
-		//if (!tracker.getClass().isInstance(ICustomPacketsEntity.class)) {
-		if(ICustomPacketsEntity.class.isAssignableFrom(tracker.getClass())){
+		if (ICustomPacketsEntity.class.isAssignableFrom(tracker.getClass())) {
 			ICustomPacketsEntity npc = (ICustomPacketsEntity) tracker;
 			return (Packet<?>[]) npc.getUpdatePackets();
 		}

@@ -15,13 +15,13 @@ public class NullCharacter extends BasicCharacter {
 	@Override
 	public void initGoalTasks(LivingEntityNPC entity, AIManager manager) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initTargetTasks(LivingEntityNPC entity, AIManager fightAIManager) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

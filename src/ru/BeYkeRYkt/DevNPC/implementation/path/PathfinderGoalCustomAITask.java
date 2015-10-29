@@ -9,6 +9,7 @@ public class PathfinderGoalCustomAITask extends PathfinderGoal {
 
 	public PathfinderGoalCustomAITask(AIGoal task) {
 		this.task = task;
+		a(task.getMutexBits());
 	}
 
 	@Override

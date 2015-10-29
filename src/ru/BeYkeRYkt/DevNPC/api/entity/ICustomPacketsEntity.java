@@ -5,4 +5,6 @@ public interface ICustomPacketsEntity {
 	public Object[] getSpawnPackets();
 
 	public Object[] getUpdatePackets();
+
+	public void initEntityTracker();
 }

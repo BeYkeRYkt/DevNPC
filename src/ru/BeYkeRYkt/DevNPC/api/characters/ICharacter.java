@@ -45,14 +45,14 @@ public interface ICharacter {
 	public void initGoalTasks(LivingEntityNPC entity, AIManager manager);
 
 	public void initTargetTasks(LivingEntityNPC entity, AIManager fightAIManager);
-	
+
 	public ItemStack getHelmet();
-	
+
 	public ItemStack getChestplate();
-	
+
 	public ItemStack getLeggings();
-	
+
 	public ItemStack getBoots();
-	
+
 	public ItemStack getItemInHand();
 }

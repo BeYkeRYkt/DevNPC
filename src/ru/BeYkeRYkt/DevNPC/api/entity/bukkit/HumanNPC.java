@@ -13,8 +13,8 @@ public interface HumanNPC extends LivingEntityNPC {
 	public boolean canRegenerationHealth();
 
 	public void setRegenerationHealth(boolean flag);
-	
+
 	public void playSwingArm();
-	
+
 	public void playEatAnimation(int particleCount);
 }

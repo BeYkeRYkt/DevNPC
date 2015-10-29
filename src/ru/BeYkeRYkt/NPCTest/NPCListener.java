@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import ru.BeYkeRYkt.DevNPC.DevNPC;
 import ru.BeYkeRYkt.DevNPC.api.Animations;
 import ru.BeYkeRYkt.DevNPC.api.characters.ICharacter;
-import ru.BeYkeRYkt.DevNPC.api.entity.bukkit.LivingEntityNPC;
 import ru.BeYkeRYkt.DevNPC.api.entity.INPC;
 import ru.BeYkeRYkt.DevNPC.api.entity.bukkit.HumanNPC;
+import ru.BeYkeRYkt.DevNPC.api.entity.bukkit.LivingEntityNPC;
 
 public class NPCListener implements Listener {
 

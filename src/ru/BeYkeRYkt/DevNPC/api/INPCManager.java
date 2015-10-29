@@ -15,7 +15,7 @@ import ru.BeYkeRYkt.DevNPC.api.utils.INMSRegistry;
 public interface INPCManager {
 
 	public INPC spawnNPC(String entityTypeName, Location location);
-	
+
 	public INPC spawnNPC(int entityTypeId, Location location);
 
 	public List<INPC> getNPCs();
@@ -31,7 +31,7 @@ public interface INPCManager {
 	public void despawnAll();
 
 	public ICharacterManager getCharacterManager();
-	
+
 	public INMSRegistry getNMSRegistry();
 
 	public Plugin getPlugin();

@@ -4,14 +4,14 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.Set;
 
-import org.spigotmc.AsyncCatcher;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityTrackerEntry;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.Item;
 import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.MathHelper;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityStatus;
@@ -24,6 +24,11 @@ import ru.BeYkeRYkt.DevNPC.api.entity.INPC;
 public class NMSHelper {
 
 	private static Random random = new Random();
+
+	public static void registerWorldAccess(World world) {
+		WorldServer nmsWorld = ((CraftWorld) world).getHandle();
+		nmsWorld.addIWorldAccess(new DevWorldAccess());
+	}
 
 	public static WorldServer getWorld(Entity entity) {
 		return ((WorldServer) entity.world);
@@ -75,16 +80,26 @@ public class NMSHelper {
 		getWorld(entity).makeSound(entity, name, f, f1);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static EntityTrackerEntry registerEntityTracker(Entity entity, int trackingRange, int updateFrequency, boolean sendVelocityUpdates) {
 		WorldServer worldServer = getWorld(entity);
 		CustomEntityTrackerEntry tracker = new CustomEntityTrackerEntry(entity, trackingRange, updateFrequency, sendVelocityUpdates);
-		
+
 		try {
 			Field field = worldServer.tracker.getClass().getDeclaredField("c");
 			if (!field.isAccessible()) {
 				field.setAccessible(true);
 			}
+
 			Set<EntityTrackerEntry> list = (Set<EntityTrackerEntry>) field.get(worldServer.tracker);
+
+			if (worldServer.tracker.trackedEntities.b(entity.getId())) { // if contains entity tracker
+				// go to delete
+				EntityTrackerEntry oldTracker = worldServer.tracker.trackedEntities.d(entity.getId());
+				list.remove(oldTracker);
+				oldTracker.a();
+			}
+
 			list.add(tracker);
 			worldServer.tracker.trackedEntities.a(entity.getId(), tracker);
 			tracker.scanPlayers(worldServer.players);
@@ -96,13 +111,9 @@ public class NMSHelper {
 
 	public static void saveBasicInfoNBT(INPC entity, NBTTagCompound nbttagcompound) {
 		try {
-			// nbttagcompound.setString("characterId", entity.getCharacter().getId());
 			nbttagcompound.setBoolean("damageable", entity.isDamageable());
 			nbttagcompound.setBoolean("gravity", entity.isGravity());
 			nbttagcompound.setBoolean("freezing", entity.isFreezing());
-			// nbttagcompound.setDouble("walkSpeed", entity.getWalkSpeed());
-			// nbttagcompound.setDouble("viewDistance", entity.getViewDistance());
-			// nbttagcompound.setDouble("damageAttack", entity.getDamageAttack());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -110,15 +121,9 @@ public class NMSHelper {
 
 	public static void restoreBasicInfoNBT(INPC entity, NBTTagCompound nbttagcompound) {
 		try {
-			// String id = nbttagcompound.getString("characterId");
-			// ICharacter character = DevNPC.getNPCManager().getCharacterManager().getCharacter(id);
-			// entity.setCharacter(character);
 			entity.setDamageable(nbttagcompound.getBoolean("damageable"));
 			entity.setGravity(nbttagcompound.getBoolean("gravity"));
 			entity.setFreezing(nbttagcompound.getBoolean("freezing"));
-			// entity.setWalkSpeed(nbttagcompound.getDouble("walkSpeed"));
-			// entity.setViewDistance(nbttagcompound.getDouble("viewDistance"));
-			// entity.setDamageAttack(nbttagcompound.getDouble("damageAttack"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

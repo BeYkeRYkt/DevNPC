@@ -32,6 +32,7 @@ import net.minecraft.server.v1_8_R3.EntityPig;
 import net.minecraft.server.v1_8_R3.EntityTrackerEntry;
 import net.minecraft.server.v1_8_R3.EnumDifficulty;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
+import net.minecraft.server.v1_8_R3.IAnimal;
 import net.minecraft.server.v1_8_R3.IRangedEntity;
 import net.minecraft.server.v1_8_R3.Item;
 import net.minecraft.server.v1_8_R3.ItemStack;
@@ -44,7 +45,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.PlayerInfoData;
 import net.minecraft.server.v1_8_R3.World;
-import net.minecraft.server.v1_8_R3.WorldServer;
 import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 import ru.BeYkeRYkt.DevNPC.api.Animations;
 import ru.BeYkeRYkt.DevNPC.api.entity.ICustomPacketsEntity;
@@ -54,7 +54,7 @@ import ru.BeYkeRYkt.DevNPC.implementation.entity.CraftEntityNPC;
 import ru.BeYkeRYkt.DevNPC.implementation.entity.CraftHumanNPC;
 import ru.BeYkeRYkt.DevNPC.implementation.utils.NMSHelper;
 
-public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, ICustomPacketsEntity, IRangedEntity {
+public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, ICustomPacketsEntity, IRangedEntity, IAnimal {
 
 	private HumanNPC npc;
 	public GameProfile profile;
@@ -64,7 +64,7 @@ public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, 
 
 	public EntityHumanNPC(World world) {
 		super(world);
-		bX();
+		// bX();
 		j(true);
 		this.maxFireTicks = 20;
 		setCustomName("");
@@ -75,8 +75,8 @@ public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, 
 	}
 
 	@Override
-	public void ah() { // onChunkLoad
-		if (tracker == null) {
+	public void initEntityTracker() {
+		if (this.tracker == null) {
 			this.tracker = NMSHelper.registerEntityTracker(this, 80, 3, false);
 		}
 	}
@@ -189,10 +189,6 @@ public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, 
 		}
 	}
 
-	protected void dropEquipment(boolean flag, int i) {
-		return;
-	}
-
 	@Override
 	public void t_() { // onTick
 		if (!getBukkitNPC().isFreezing()) {
@@ -267,7 +263,7 @@ public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, 
 
 	@Override
 	public void g(float f, float f1) {
-		if (!getBukkitNPC().isFreezing()) {
+		if (!getBukkitNPC().isFreezing() || !getBukkitNPC().isGravity()) {
 			super.g(f, f1);
 		}
 	}
@@ -379,6 +375,7 @@ public class EntityHumanNPC extends EntityCreature implements INMSCustomEntity, 
 		return new Packet[] {};
 	}
 
+	@SuppressWarnings("unchecked")
 	public Packet<?> getPlayerListPacket(EnumPlayerInfoAction a) {
 		PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
 		try {

@@ -41,7 +41,7 @@ public abstract class CraftEntityNPC extends CraftCreature implements LivingEnti
 	public boolean isLiving() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isDamageable() {
 		return damageable;
@@ -51,7 +51,7 @@ public abstract class CraftEntityNPC extends CraftCreature implements LivingEnti
 	public void setDamageable(boolean flag) {
 		this.damageable = flag;
 	}
-	
+
 	@Override
 	public boolean isGravity() {
 		return gravity;
@@ -212,6 +212,7 @@ public abstract class CraftEntityNPC extends CraftCreature implements LivingEnti
 		getHandle().getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(damage);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
 		return "CraftEntityNPC[type=" + getType().getName() + "; " + getCharacter().toString() + "]";
@@ -236,7 +237,7 @@ public abstract class CraftEntityNPC extends CraftCreature implements LivingEnti
 		getEquipment().setBoots(getCharacter().getBoots());
 		getEquipment().setItemInHand(getCharacter().getItemInHand());
 	}
-	
+
 	public abstract void readExtraData(NBTTagCompound nbttagcompound);
 
 	public abstract void setExtraData(NBTTagCompound nbttagcompound);

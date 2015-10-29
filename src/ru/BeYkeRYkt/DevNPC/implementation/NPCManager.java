@@ -28,7 +28,7 @@ public class NPCManager implements INPCManager {
 		this.manager = new NPCCharacterManager();
 		this.registry = new NMSRegistry();
 	}
-	
+
 	@Override
 	public INPC spawnNPC(String entityTypeName, Location location) {
 		INPC npc = null;
@@ -37,7 +37,7 @@ public class NPCManager implements INPCManager {
 		((Entity) npc).teleport(location);
 		return npc;
 	}
-	
+
 	@Override
 	public INPC spawnNPC(int entityTypeId, Location location) {
 		INPC npc = null;
@@ -88,7 +88,7 @@ public class NPCManager implements INPCManager {
 
 	@Override
 	public boolean isNPC(Entity entity) {
-		if(INPC.class.isAssignableFrom(entity.getClass())){
+		if (INPC.class.isAssignableFrom(entity.getClass())) {
 			return true;
 		}
 		return false;

@@ -13,7 +13,7 @@ public interface LivingEntityNPC extends Creature, INPC {
 	public void moveTo(Location loc, double speed);
 
 	public void moveTo(double x, double y, double z, double speed);
-	
+
 	public void stopPathfinding();
 
 	public void jump();
@@ -43,8 +43,8 @@ public interface LivingEntityNPC extends Creature, INPC {
 	public double getDamageAttack();
 
 	public void setDamageAttack(double damage);
-	
+
 	public void attackEntity(LivingEntity entity);
-	
+
 	public void applyCharacterEquipment();
 }
